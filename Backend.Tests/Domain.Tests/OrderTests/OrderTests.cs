@@ -24,5 +24,18 @@ namespace Domain.Tests
             order.Price.Should().Be(1200);
             order.Id.Should().NotBeEmpty();
         }
+
+        [Fact]
+public void ThisTestShouldFail()
+{
+    // Arrange
+    int value = 1;
+
+    // Act
+    int result = value + 1;
+
+    // Assert 
+    result.Should().Be(1); 
+}
     }
 }
