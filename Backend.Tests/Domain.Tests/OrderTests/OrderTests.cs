@@ -25,17 +25,6 @@ namespace Domain.Tests
             order.Id.Should().NotBeEmpty();
         }
 
-        [Fact]
-public void ThisTestShouldFail()
-{
-    // Arrange
-    int value = 1;
-
-    // Act
-    int result = value + 1;
-
-    // Assert 
-    result.Should().Be(1); 
-}
+       
     }
 }
