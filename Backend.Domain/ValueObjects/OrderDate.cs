@@ -11,7 +11,7 @@ public class OrderDate
         if ( value == DateTime.MinValue)
         throw new ArgumentException("Date cannot be empty");
 
-        if (value > DateTime.Now) 
+        if (value > DateTime.UtcNow) 
         throw new ArgumentException ("Order date cannot be in the future");
 
        Value= value;

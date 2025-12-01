@@ -24,7 +24,6 @@ namespace Domain.Tests
             order.Price.Should().Be(1200);
             order.Id.Should().NotBeEmpty();
         }
-
        
     }
 }
