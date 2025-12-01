@@ -1,4 +1,6 @@
 using Backend.Domain.ValueObjects;
+using Backend.Domain.Roles;
+using Microsoft.VisualBasic;
 
 namespace Backend.Domain.Entities;
 
@@ -9,10 +11,13 @@ public class User
 
     public PasswordHash Password {get; private set;}
 
-    public User (UserName username, PasswordHash password)
+    public Role Role { get; private set; }
+
+    public User (UserName username, PasswordHash password, Role role)
     {
         Id= Guid.NewGuid();
         Username= username;
         Password= password;
+        Role= role ?? throw new ArgumentNullException(nameof(role));
     }
 }
