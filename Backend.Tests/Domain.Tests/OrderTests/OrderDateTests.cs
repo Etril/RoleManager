@@ -11,7 +11,7 @@ namespace Domain.Tests {
 
         [Fact]
         
-        public void Order_Creation_WithTodayDate_Succeeds()
+        public void OrderDate_Creation_WithTodayDate_Succeeds()
         {
             //Arrange
             var now= DateTime.UtcNow;
@@ -25,7 +25,7 @@ namespace Domain.Tests {
         
         
         [Fact]
-        public void Order_Creation_Fails_When_OrderDate_Future()
+        public void OrderDate_Creation_Fails_When_OrderDate_Future()
         {
             // Arrange
             var future= DateTime.UtcNow.AddYears(1);
@@ -43,7 +43,7 @@ namespace Domain.Tests {
 
         [Fact]
         
-        public void Order_Creation_Fails_When_DateIsMinValue()
+        public void OrderDate_Creation_Fails_When_DateIsMinValue()
         {
             //Arrange
             var min = DateTime.MinValue;
@@ -58,6 +58,21 @@ namespace Domain.Tests {
             
 
 
+        }
+
+        [Fact]
+
+        public void OrderDate_Equals_ReturnsTrue_WhenSameDate()
+        {
+            //Arrange
+            var now= DateTime.UtcNow;
+
+            //Act
+            var date1= new OrderDate(now);
+            var date2= new OrderDate(now);
+
+            //Assert
+            date1.Should().Be(date2);
         }
     
     }

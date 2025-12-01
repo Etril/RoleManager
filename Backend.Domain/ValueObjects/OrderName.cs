@@ -10,4 +10,9 @@ public class OrderName
         throw new ArgumentException("Order name cannot be empty");
         Value= value;
     }
+
+    public override bool Equals(object? obj) => Equals(obj as OrderName);
+    public bool Equals(OrderName? other) => other != null && Value == other.Value;
+
+    public override int GetHashCode() => Value.GetHashCode();
 }

@@ -17,5 +17,10 @@ public class OrderDate
        Value= value;
     }
 
+    public override bool Equals(object? obj) => Equals(obj as OrderDate);
+    public bool Equals(OrderDate? other) => other != null && Value == other.Value;
+
+    public override int GetHashCode() => Value.GetHashCode();
+
 
 }
