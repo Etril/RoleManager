@@ -2,8 +2,10 @@ using System.Runtime.CompilerServices;
 using Backend.Domain.Entities;
 using Backend.Domain.Roles;
 using Backend.Domain.ValueObjects;
+using Backend.Domain.Services;
 using FluentAssertions;
 using Microsoft.VisualBasic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Domain.Tests
 {
@@ -60,7 +62,43 @@ namespace Domain.Tests
             act.Should().Throw<ArgumentException>();
             
         }
-    
+
+        [Fact]
+
+        public void UpdateUser_UpdatesCorrectly_WhenConditionsAreMet()
+        {
+            //Arrange
+            var user= new User(new UserName("test"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+            var userAdmin= new User(new UserName("test"), new PasswordHash("hashedpassword"), RoleRights.CreateAdmin());
+            var service= new UserManagementService();
+
+            //Act
+            service.UpdateUser(user, new UserName("change"), new PasswordHash("hashedpassword2"), RoleRights.CreateManager(), userAdmin);
+
+            //Assert
+            user.Username.Value.Should().Be("change");
+            user.Password.Value.Should().Be("hashedpassword2");
+            user.Role.Type.Should().Be(RoleType.Manager);
+
+        }
+
+        [Fact]
+
+        public void UpdateUser_Throws_WhenNoPermissions()
+        {
+            //Arrange
+            var user= new User(new UserName("test"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+            var userManager= new User(new UserName("test"), new PasswordHash("hashedpassword"), RoleRights.CreateManager());
+            var service= new UserManagementService();
+
+            //Act
+            Action act = () => service.UpdateUser(user, new UserName("change"), new PasswordHash("hashedpassword2"), RoleRights.CreateManager(), userManager);
+
+            //Assert
+            act.Should().Throw<UnauthorizedAccessException>();
+
+
+        }
 
 
 }

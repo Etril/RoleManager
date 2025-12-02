@@ -74,4 +74,11 @@ public class User
         order.UpdatePrice(newPrice);
 
     }
+
+    public void UpdateUserDetails (UserName newUserName, PasswordHash newPasswordHash, Role newRole)
+    {
+        Username= newUserName;
+        Password= newPasswordHash;
+        Role= newRole;
+    }
 }
