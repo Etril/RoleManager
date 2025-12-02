@@ -10,34 +10,39 @@ namespace Domain.Tests
     public class RolesRightsTests
     {
         [Fact]
-        
+
         public void CreateBaseUser_ShouldReturnRole_WithCorrectPermissions()
         {
             //Act
-            var role= RoleRights.CreateBaseUser();
+            var role = RoleRights.CreateBaseUser();
 
             //Assert
             role.Type.Should().Be(RoleType.BaseUser);
-            role.Permissions.Should().BeEquivalentTo(new []
+            role.Permissions.Should().BeEquivalentTo(new[]
             {
-                Permission.EditOwnOrder
+                Permission.EditOwnOrder,
+                Permission.DeleteOwnOrder,
+                Permission.AddOrder
             });
-            
+
         }
 
-       [Fact]
+        [Fact]
 
-       public void CreateManager_ShouldReturnRole_WithCorrectPermissions()
+        public void CreateManager_ShouldReturnRole_WithCorrectPermissions()
         {
             //Act
-            var role= RoleRights.CreateManager();
+            var role = RoleRights.CreateManager();
 
             //Assert
             role.Type.Should().Be(RoleType.Manager);
-            role.Permissions.Should().BeEquivalentTo(new []
+            role.Permissions.Should().BeEquivalentTo(new[]
             {
-                Permission.EditAnyOrder,
-                Permission.EditOwnOrder
+                Permission.EditOwnOrder,
+                 Permission.EditAnyOrder,
+                 Permission.DeleteAnyOrder,
+                 Permission.DeleteOwnOrder,
+                 Permission.AddOrder
             });
         }
 
@@ -45,14 +50,17 @@ namespace Domain.Tests
         public void CreateAdmin_ShouldReturnRole_WithCorrectPermissions()
         {
             //Act
-            var role= RoleRights.CreateAdmin();
+            var role = RoleRights.CreateAdmin();
 
             //Assert
             role.Type.Should().Be(RoleType.Admin);
-            role.Permissions.Should().BeEquivalentTo(new []
+            role.Permissions.Should().BeEquivalentTo(new[]
             {
                 Permission.EditAnyOrder,
                 Permission.EditOwnOrder,
+                Permission.DeleteAnyOrder,
+                Permission.DeleteOwnOrder,
+                Permission.AddOrder,
                 Permission.EditUsers
             });
         }

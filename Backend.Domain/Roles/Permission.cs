@@ -5,7 +5,13 @@ public enum Permission
     EditOwnOrder,
     EditAnyOrder,
 
+    DeleteOwnOrder,
+
+    DeleteAnyOrder,
+
+    AddOrder,
+
     EditUsers,
 
-    
+
 }

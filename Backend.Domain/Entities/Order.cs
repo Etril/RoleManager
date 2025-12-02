@@ -23,13 +23,13 @@ public class Order
         Price= price;
     }
 
-     /* public void UpdatePrice (decimal newPrice, User updatedBy)
-    {
-        if (newPrice < 0) 
-        throw new ArgumentException ("Price can't be negative");
+    public void UpdatePrice(decimal newPrice)
+{
+    if (newPrice < 0)
+        throw new ArgumentException("Price cannot be negative");
 
-        if (!updatedBy.Role.CanUpdatePrice())
-        throw new UnauthorizedAccessException("You are not allowed to update the price");
-    } */
+    Price = newPrice;
+}
+
 
 }

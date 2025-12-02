@@ -6,7 +6,9 @@ public static class RoleRights
     public static Role CreateBaseUser()
     => new Role(RoleType.BaseUser, new HashSet<Permission>
     {
-        Permission.EditOwnOrder
+        Permission.EditOwnOrder,
+        Permission.DeleteOwnOrder,
+        Permission.AddOrder
     });
 
     public static Role CreateManager()
@@ -14,6 +16,9 @@ public static class RoleRights
     {
         Permission.EditOwnOrder,
         Permission.EditAnyOrder,
+        Permission.DeleteAnyOrder,
+        Permission.DeleteOwnOrder,
+        Permission.AddOrder
     });
 
     public static Role CreateAdmin()
@@ -21,6 +26,9 @@ public static class RoleRights
     {
         Permission.EditAnyOrder,
         Permission.EditOwnOrder,
-        Permission.EditUsers
+        Permission.EditUsers,
+        Permission.DeleteAnyOrder,
+        Permission.DeleteOwnOrder,
+        Permission.AddOrder
     });
 }
