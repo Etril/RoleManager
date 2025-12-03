@@ -9,5 +9,7 @@ namespace Backend.Application.Repositories
     {
         Task<User?> GetByIdAsync (Guid userId);
         Task UpdateAsync (User user);
+
+        Task<User?> GetByOrderIdAsync(Guid orderId);
     }
 }

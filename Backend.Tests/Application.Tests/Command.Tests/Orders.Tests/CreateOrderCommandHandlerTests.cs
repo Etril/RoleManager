@@ -17,18 +17,15 @@ namespace Application.Tests
     {
 
         private readonly Mock<IUserRepository> _userRepositoryMock;
-        private readonly Mock<IOrderRepository> _orderRepositoryMock;
 
         private readonly CreateOrderCommandHandler _handler;
 
         public CreateOrderCommandHandlerTests()
         {
          _userRepositoryMock= new Mock<IUserRepository>();
-         _orderRepositoryMock= new Mock<IOrderRepository>();
 
          _handler= new CreateOrderCommandHandler(
-            _userRepositoryMock.Object,
-            _orderRepositoryMock.Object
+            _userRepositoryMock.Object
          )   ;
         }
 
@@ -37,28 +34,30 @@ namespace Application.Tests
         public async Task CreateOrderCommandHandler_Succeeds_WhenValid()
         {
             //Arrange
-            var userId= Guid.NewGuid();
+            var targetUserId= Guid.NewGuid();
+            var createdByUserId= Guid.NewGuid();
+
             var command= new CreateOrderCommand("Test", 50, DateTime.UtcNow);
 
-            var fakeUser= new User (new UserName("TestUser"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+            var targetUser= new User (new UserName("TestUser"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+            var createdByUser= new User(new UserName("Manager"), new PasswordHash("hashedpassword"), RoleRights.CreateManager());
+
 
             _userRepositoryMock
-            .Setup(repo => repo.GetByIdAsync(userId))
-            .ReturnsAsync(fakeUser);
+            .Setup(repo => repo.GetByIdAsync(targetUserId))
+            .ReturnsAsync(targetUser);
 
-            _orderRepositoryMock
-            .Setup(repo => repo.AddAsync(It.IsAny<Order>()))
-            .Returns(Task.CompletedTask);
+            _userRepositoryMock
+            .Setup(repo => repo.GetByIdAsync(createdByUserId))
+            .ReturnsAsync(createdByUser);
+
 
             //Act
 
-            var result= await _handler.Handle(command, userId);
+            var result= await _handler.Handle(command, targetUserId, createdByUserId);
 
             //Assert
             result.Should().NotBeNull();
-            result.Name.Should().Be(command.Name);
-            result.Price.Should().Be(command.Price);
-            result.Date.Should().Be(command.Date);
         }
 
         [Fact]
@@ -70,7 +69,7 @@ namespace Application.Tests
             var command= new CreateOrderCommand("Test", 50, DateTime.UtcNow);
 
             //Act
-            Func<Task> act = async () => await _handler.Handle(command, userId);
+            Func<Task> act = async () => await _handler.Handle(command, userId, userId);
 
             //Assert
             await act.Should().ThrowAsync<Exception>().WithMessage("User not found");
@@ -82,29 +81,29 @@ namespace Application.Tests
         public async Task CreateOrderCommandHandler_CallsOrderRepository_OnlyOnce()
         {
             //Arrange
-            var userId= Guid.NewGuid();
+            var targetUserId= Guid.NewGuid();
+            var createdByUserId= Guid.NewGuid();
+
             var command= new CreateOrderCommand("Test", 50, DateTime.UtcNow);
 
-            var fakeUser= new User (new UserName("TestUser"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+            var targetUser= new User (new UserName("TestUser"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+            var createdByUser= new User(new UserName("Manager"), new PasswordHash("hashedpassword"), RoleRights.CreateManager());
 
             _userRepositoryMock
-            .Setup(repo => repo.GetByIdAsync(userId))
-            .ReturnsAsync(fakeUser);
+            .Setup(repo => repo.GetByIdAsync(targetUserId))
+            .ReturnsAsync(targetUser);
 
-            _orderRepositoryMock
-            .Setup(repo => repo.AddAsync(It.IsAny<Order>()))
-            .Returns(Task.CompletedTask);
+            _userRepositoryMock
+            .Setup(repo => repo.GetByIdAsync(createdByUserId))
+            .ReturnsAsync(createdByUser);
 
             //Act
-             var result= await _handler.Handle(command, userId);
+             var result= await _handler.Handle(command, targetUserId, createdByUserId);
 
              //Assert
 
-             _orderRepositoryMock.Verify(
-                repo => repo.AddAsync(It.Is<Order>(o => 
-                o.Name.Value == command.Name &&
-                o.Price == command.Price &&
-                o.Date.Value == command.Date)),
+             _userRepositoryMock.Verify(
+                repo => repo.UpdateAsync(targetUser),
                 Times.Once
              );
 

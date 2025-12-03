@@ -7,21 +7,26 @@ namespace Backend.Application.Commands;
 public class CreateOrderCommandHandler
 {
     private readonly IUserRepository _userRepository;
-    private readonly IOrderRepository _orderRepository; 
 
-    public CreateOrderCommandHandler(IUserRepository userRepository, IOrderRepository orderRepository)
+    public CreateOrderCommandHandler(IUserRepository userRepository)
     {
         _userRepository= userRepository;
-        _orderRepository= orderRepository;
     }
 
-    public async Task<CreateOrderResponse> Handle (CreateOrderCommand command, Guid userId)
+    public async Task<CreateOrderResponse> Handle (CreateOrderCommand command, Guid targetUserId, Guid createdByUserId)
     {
-        var user= await _userRepository.GetByIdAsync(userId);
-        if (user==null)
+        var ownerUser = await _userRepository.GetByIdAsync(targetUserId);
+        if (ownerUser==null)
         {
             throw new Exception("User not found");
         }
+        
+        var createdByUser = await _userRepository.GetByIdAsync(createdByUserId);
+        if (createdByUser==null)
+        {
+            throw new Exception("User not found");
+        }
+
 
         var order = new Order(
             new OrderName(command.Name),
@@ -29,7 +34,9 @@ public class CreateOrderCommandHandler
             new OrderDate(command.Date)
         );
 
-        await _orderRepository.AddAsync(order);
+        ownerUser.AddOrder(order, createdByUser);
+
+        await _userRepository.UpdateAsync(ownerUser);
 
         return new CreateOrderResponse(order.Id, order.Name.Value, order.Price, order.Date.Value);
     }
