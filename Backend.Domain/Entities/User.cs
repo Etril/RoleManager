@@ -6,12 +6,14 @@ namespace Backend.Domain.Entities;
 
 public class User
 {
+
+    private User() {}
     public Guid Id {get; private set;}
-    public UserName Username {get; private set;}
+     public UserName Username {get; private set;} =default!;
 
-    public PasswordHash Password {get; private set;}
+    public PasswordHash Password {get; private set;} =default!;
 
-    public Role Role { get; private set; }
+    public Role Role { get; private set; } = default!;
 
     private readonly List<Order> _orders= new();
     public IReadOnlyCollection<Order> Orders => _orders.AsReadOnly();

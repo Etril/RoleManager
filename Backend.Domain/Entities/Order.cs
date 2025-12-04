@@ -3,11 +3,14 @@ using Backend.Domain.ValueObjects;
 namespace Backend.Domain.Entities; 
 
 public class Order
-{
-    public Guid Id { get; private set; }
-    public OrderName Name { get; private set; }
 
-    public OrderDate Date { get; private set; }
+{
+
+    private Order() { }
+    public Guid Id { get; private set; }
+    public OrderName Name { get; private set; } =default!;
+
+    public OrderDate Date { get; private set; } = default!;
 
     public decimal Price { get; private set; }
 
