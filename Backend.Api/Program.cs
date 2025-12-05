@@ -1,9 +1,14 @@
 using Backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Backend.Application.Repositories;
+using Backend.Infrastructure.Persistence.Repositories;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddControllers();
 
