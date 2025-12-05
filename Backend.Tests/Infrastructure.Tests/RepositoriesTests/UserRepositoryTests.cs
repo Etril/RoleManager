@@ -8,7 +8,7 @@ using Backend.Tests.Common;
 using Backend.Infrastructure.Persistence.Repositories;
 using SQLitePCL;
 
-namespace Infrastructure.Tests; 
+namespace Backend.Infrastructure.Tests; 
 
 public class UserRepositoryTests
 {
