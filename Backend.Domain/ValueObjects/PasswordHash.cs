@@ -1,15 +1,25 @@
+using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
+using BCrypt.Net;
 
 namespace Backend.Domain.ValueObjects;
 
 public class PasswordHash
 {
-    public string Value { get;}
+    public string? Value { get; private set;}
 
-    public PasswordHash (string value)
+    private PasswordHash() {}
+
+    public static PasswordHash FromPlainText(string password)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        if (string.IsNullOrWhiteSpace(password))
         throw new ArgumentException("Password cannot be blank");
-        Value=value;
+
+
+        var hash = BCrypt.Net.BCrypt.HashPassword(password);
+        return new PasswordHash {Value = hash};
     }
+    
+    public bool Matches(string plaintext) =>
+    BCrypt.Net.BCrypt.Verify(plaintext, Value);
 }

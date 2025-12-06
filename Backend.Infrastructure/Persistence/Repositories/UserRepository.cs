@@ -1,6 +1,7 @@
 using Backend.Domain.Entities;
 using Backend.Application.Repositories; // wherever your interface is declared
 using Microsoft.EntityFrameworkCore;
+using Backend.Domain.ValueObjects;
 
 namespace Backend.Infrastructure.Persistence.Repositories;
 
@@ -32,5 +33,11 @@ public class UserRepository : IUserRepository
         .Include(u => u.Orders )
         .FirstOrDefaultAsync(u=> u.Orders.Any(o=> o.Id==orderId));
         
+    }
+
+    public async Task<User?> GetByUsernameAsync(UserName username)
+    {
+        return await _context.Users
+        .FirstOrDefaultAsync(u => u.Username.Value == username.Value);
     }
 }

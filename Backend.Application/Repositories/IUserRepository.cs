@@ -1,4 +1,5 @@
 using Backend.Domain.Entities;
+using Backend.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,5 +12,7 @@ namespace Backend.Application.Repositories
         Task UpdateAsync (User user);
 
         Task<User?> GetByOrderIdAsync(Guid orderId);
+
+        Task<User?> GetByUsernameAsync (UserName username);
     }
 }
