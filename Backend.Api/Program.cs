@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddJwtAuth(builder.Configuration);
 
 builder.Services.AddControllers();
 
@@ -29,6 +30,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication
 app.UseAuthorization();
 
 app.MapControllers();
