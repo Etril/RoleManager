@@ -19,6 +19,14 @@ public class PasswordHash
         var hash = BCrypt.Net.BCrypt.HashPassword(password);
         return new PasswordHash {Value = hash};
     }
+
+    public static PasswordHash FromHash(string hash)
+    {
+        if (string.IsNullOrWhiteSpace(hash))
+            throw new ArgumentException("Hash cannot be blank");
+
+        return new PasswordHash { Value = hash };
+    }
     
     public bool Matches(string plaintext) =>
     BCrypt.Net.BCrypt.Verify(plaintext, Value);

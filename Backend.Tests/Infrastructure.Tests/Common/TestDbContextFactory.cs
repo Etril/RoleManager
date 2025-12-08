@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Backend.Infrastructure.Persistence;
 using System.ComponentModel.Design.Serialization;
 
-namespace Backend.Tests.Common;
+namespace Infrastructure.Tests.Common;
 
 public static class TestDbContextFactory
 {

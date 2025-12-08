@@ -23,7 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Backend.Application\Backend.Application.csproj" />
     <ProjectReference Include="..\..\Backend.Infrastructure\Backend.Infrastructure.csproj" />
-    <ProjectReference Include="..\Backend.Tests\Infrastructures.Tests\Infrastructure.Tests.csproj" />
     <ProjectReference Include="..\Infrastructure.Tests\Infrastructure.Tests.csproj" />
   </ItemGroup>
 

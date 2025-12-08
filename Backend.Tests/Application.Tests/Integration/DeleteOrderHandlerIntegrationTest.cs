@@ -8,7 +8,8 @@ using Backend.Domain.Roles;
 using Backend.Domain.ValueObjects;
 using Backend.Infrastructure.Persistence;
 using Backend.Infrastructure.Persistence.Repositories;
-using Backend.Tests.Common;
+using Backend.Infrastructure;
+using Infrastructure.Tests.Common;
 using FluentAssertions;
 using Xunit;
 
@@ -26,14 +27,14 @@ public class DeleteOrderHandlerIntegrationTests
 
         var repo= new UserRepository(context);
 
-        var user= new User(new UserName("Test123"), new PasswordHash("hashed"), RoleRights.CreateBaseUser());
+        var user= new User(new UserName("Test123"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
         var order= new Order (new OrderName("Laptop"), 100, new OrderDate(DateTime.UtcNow));
 
         user.AddOrder(order, user);
 
         context.Users.Add(user);
 
-        var admin = new User (new UserName("Admin"), new PasswordHash("hashed"), RoleRights.CreateAdmin());
+        var admin = new User (new UserName("Admin"), PasswordHash.FromHash("hashed"), RoleRights.CreateAdmin());
         context.Users.Add(admin);
 
         await context.SaveChangesAsync();

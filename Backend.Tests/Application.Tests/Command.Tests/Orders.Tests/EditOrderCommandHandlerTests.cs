@@ -39,9 +39,9 @@ namespace Application.Tests
 
             var command =new EditOrderCommand(order.Id, order.Name.Value, 100, order.Date.Value);
 
-            var targetUser= new User (new UserName("Testuser"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+            var targetUser= new User (new UserName("Testuser"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
             targetUser.AddOrder(order, targetUser);
-            var editedByUser= new User(new UserName("Manager"), new PasswordHash("hashedpassword"), RoleRights.CreateManager());
+            var editedByUser= new User(new UserName("Manager"), PasswordHash.FromHash("hashed"), RoleRights.CreateManager());
 
             _userRepositoryMock
             .Setup(repo => repo.GetByOrderIdAsync(order.Id))
@@ -88,10 +88,10 @@ namespace Application.Tests
 
             var command =new EditOrderCommand(order.Id, order.Name.Value, 100, order.Date.Value);
 
-            var targetUser= new User (new UserName("Testuser"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+            var targetUser= new User (new UserName("Testuser"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
             targetUser.AddOrder(order, targetUser);
             
-            var editedByUser= new User(new UserName("Test1234"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+            var editedByUser= new User(new UserName("Test1234"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
 
             _userRepositoryMock
             .Setup(repo => repo.GetByOrderIdAsync(order.Id))

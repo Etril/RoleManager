@@ -40,10 +40,10 @@ public class DeleteOrderCommandHandlerTests
 
         var command= new DeleteOrderCommand(order.Id);
 
-        var targetUser= new User (new UserName("Testuser"), new PasswordHash("hashed"), RoleRights.CreateBaseUser());
+        var targetUser= new User (new UserName("Testuser"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
         targetUser.AddOrder(order, targetUser);
 
-        var deletedByUser= new User(new UserName("Testuser"), new PasswordHash("hashed"), RoleRights.CreateManager());
+        var deletedByUser= new User(new UserName("Testuser"), PasswordHash.FromHash("hashed"), RoleRights.CreateManager());
 
         _userRepositoryMock
         .Setup(repo => repo.GetByOrderIdAsync(order.Id))
@@ -85,15 +85,16 @@ public class DeleteOrderCommandHandlerTests
         //Arrange
         var targetUserId= Guid.NewGuid();
         var deletedByUserId= Guid.NewGuid();
+        var password= PasswordHash.FromHash("hashed");
 
         var order = new Order(new OrderName("Test"), 100, new OrderDate(DateTime.UtcNow));
 
         var command= new DeleteOrderCommand(order.Id);
 
-        var targetUser= new User (new UserName("Testuser"), new PasswordHash("hashed"), RoleRights.CreateBaseUser());
+        var targetUser= new User (new UserName("Testuser"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
         targetUser.AddOrder(order, targetUser);
 
-        var deletedByUser= new User(new UserName("Testuser123"), new PasswordHash("hashed"), RoleRights.CreateBaseUser());
+        var deletedByUser= new User(new UserName("Testuser123"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
 
         _userRepositoryMock
         .Setup(repo => repo.GetByOrderIdAsync(order.Id))

@@ -4,11 +4,11 @@ using Backend.Domain.ValueObjects;
 using Backend.Domain.Roles;
 using FluentAssertions;
 using Microsoft.VisualBasic;
-using Backend.Tests.Common;
+using Infrastructure.Tests.Common;
 using Backend.Infrastructure.Persistence.Repositories;
 using SQLitePCL;
 
-namespace Backend.Infrastructure.Tests; 
+namespace Infrastructure.Tests.RepositoriesTests; 
 
 public class UserRepositoryTests
 {
@@ -19,7 +19,7 @@ public class UserRepositoryTests
         using var context=TestDbContextFactory.Create();
         var repo=new UserRepository(context);
 
-        var user= new User(new UserName("Test"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+        var user= new User(new UserName("Test"), PasswordHash.FromHash("hashedpassword"), RoleRights.CreateBaseUser());
 
         context.Users.Add(user);
         await context.SaveChangesAsync();
@@ -57,7 +57,7 @@ public class UserRepositoryTests
         using var context = TestDbContextFactory.Create();
         var repo= new UserRepository(context);
 
-        var user = new User (new UserName("Test123"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+        var user = new User (new UserName("Test123"), PasswordHash.FromHash("hashedpassword"), RoleRights.CreateBaseUser());
         var order= new Order (new OrderName("ordertest"), 100, new OrderDate(DateTime.UtcNow));
         user.AddOrder(order, user);
         context.Users.Add(user);
@@ -80,7 +80,7 @@ public class UserRepositoryTests
         using var context= TestDbContextFactory.Create();
         var repo= new UserRepository(context);
 
-        var user = new User (new UserName("test123"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
+        var user = new User (new UserName("test123"), PasswordHash.FromHash("hashedpassword"), RoleRights.CreateBaseUser());
         var order= new Order(new OrderName("ordertest"), 100, new OrderDate(DateTime.UtcNow));
 
         user.AddOrder(order, user);

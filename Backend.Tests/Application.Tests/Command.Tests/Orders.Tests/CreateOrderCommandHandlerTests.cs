@@ -39,8 +39,8 @@ namespace Application.Tests
 
             var command= new CreateOrderCommand("Test", 50, DateTime.UtcNow);
 
-            var targetUser= new User (new UserName("TestUser"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
-            var createdByUser= new User(new UserName("Manager"), new PasswordHash("hashedpassword"), RoleRights.CreateManager());
+            var targetUser= new User (new UserName("TestUser"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
+            var createdByUser= new User(new UserName("Manager"), PasswordHash.FromHash("hashed"), RoleRights.CreateManager());
 
 
             _userRepositoryMock
@@ -86,8 +86,8 @@ namespace Application.Tests
 
             var command= new CreateOrderCommand("Test", 50, DateTime.UtcNow);
 
-            var targetUser= new User (new UserName("TestUser"), new PasswordHash("hashedpassword"), RoleRights.CreateBaseUser());
-            var createdByUser= new User(new UserName("Manager"), new PasswordHash("hashedpassword"), RoleRights.CreateManager());
+            var targetUser= new User (new UserName("TestUser"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
+            var createdByUser= new User(new UserName("Manager"), PasswordHash.FromHash("hashed"), RoleRights.CreateManager());
 
             _userRepositoryMock
             .Setup(repo => repo.GetByIdAsync(targetUserId))

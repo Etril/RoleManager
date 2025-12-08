@@ -15,7 +15,7 @@ namespace Domain.Tests
         {
             //Arrange
             var baseRole= RoleRights.CreateBaseUser();
-            var user= new User (new UserName("Test123"), new PasswordHash("hashedpassword"), baseRole);
+            var user= new User (new UserName("Test123"), PasswordHash.FromHash("hashed"), baseRole);
             var orderToEdit= new Order (new OrderName("Laptop"), 100, new OrderDate(DateTime.UtcNow));
             user.AddOrder(orderToEdit, user);
 
@@ -33,12 +33,12 @@ namespace Domain.Tests
         {
             //Arrange
             var baseRole= RoleRights.CreateBaseUser();
-            var user= new User (new UserName("Test123"), new PasswordHash("hashedpassword"), baseRole);
+            var user= new User (new UserName("Test123"), PasswordHash.FromHash("hashed"), baseRole);
             var orderToEdit= new Order (new OrderName("Laptop"), 100, new OrderDate(DateTime.UtcNow));
             user.AddOrder(orderToEdit, user);
 
             var managerRole= RoleRights.CreateManager();
-            var userManager= new User(new UserName("Manager123"), new PasswordHash("hashedpassword"), managerRole);
+            var userManager= new User(new UserName("Manager123"), PasswordHash.FromHash("hashed"), managerRole);
 
             //Act
            user.UpdateOrderPrice(orderToEdit.Id, 1000, userManager);
@@ -54,12 +54,12 @@ namespace Domain.Tests
         {
             //Arrange
             var baseRole= RoleRights.CreateBaseUser();
-            var user= new User (new UserName("Test123"), new PasswordHash("hashedpassword"), baseRole);
+            var user= new User (new UserName("Test123"), PasswordHash.FromHash("hashed"), baseRole);
             var orderToEdit= new Order (new OrderName("Laptop"), 100, new OrderDate(DateTime.UtcNow));
             user.AddOrder(orderToEdit, user);
 
             var noPermissionRole= new Role (RoleType.BaseUser, new HashSet<Permission>());
-            var userNoPermission= new User(new UserName("Manager123"), new PasswordHash("hashedpassword"), noPermissionRole);
+            var userNoPermission= new User(new UserName("Manager123"), PasswordHash.FromHash("hashed"), noPermissionRole);
 
 
             //Act

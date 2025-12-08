@@ -15,7 +15,7 @@ namespace Domain.Tests
         {
             //Arrange
             var baseRole = RoleRights.CreateBaseUser();
-            var user= new User(new UserName("Test123"), new PasswordHash("hashedPassword"), baseRole);
+            var user= new User(new UserName("Test123"), PasswordHash.FromHash("hashed"), baseRole);
             var order= new Order (new OrderName("Laptop"), 100, new OrderDate(DateTime.UtcNow));
 
             //Act
@@ -32,7 +32,7 @@ namespace Domain.Tests
         {
             //Arrange
             var noPermissionRole = new Role(RoleType.BaseUser, new HashSet<Permission>());
-            var user= new User(new UserName("Test123"), new PasswordHash("hashedPassword"), noPermissionRole);
+            var user= new User(new UserName("Test123"), PasswordHash.FromHash("hashed"), noPermissionRole);
             var order= new Order (new OrderName("Laptop"), 100, new OrderDate(DateTime.UtcNow));
 
 
