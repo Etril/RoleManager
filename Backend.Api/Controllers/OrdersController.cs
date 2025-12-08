@@ -1,8 +1,7 @@
-
-
 using Backend.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -17,28 +16,40 @@ public class OrderController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("orders")]
-    public async Task<IActionResult> CreateOrder(CreateOrderDto dto, Guid userId)
+    [HttpPost]
+    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto dto)
     {
+        var userId = GetUserIdFromToken();
         var result = await _orderService.CreateOrderAsync(dto, userId);
         return Ok(result);
     }
 
     [Authorize]
-    [HttpPut("orders")]
+    [HttpPut("{id}")]
 
-    public async Task<IActionResult> EditOrder(EditOrderDto dto, Guid userId)
+    public async Task<IActionResult> EditOrder(EditOrderDto dto, Guid id)
     {
-        var result = await _orderService.EditOrderAsync(dto, userId);
+        var userId = GetUserIdFromToken();
+        var result = await _orderService.EditOrderAsync(dto, id, userId);
         return Ok(result);
     }
 
     [Authorize]
-    [HttpDelete("order/{id}")]
+    [HttpDelete("{id}")]
 
-    public async Task<IActionResult> DeleteOrderAsync (Guid orderId, Guid userId)
+    public async Task<IActionResult> DeleteOrderAsync (Guid id)
     {
-        var result = await _orderService.DeleteOrderAsync(orderId, userId);
+        var userId = GetUserIdFromToken();
+        var result = await _orderService.DeleteOrderAsync(id, userId);
         return Ok(result);
+    }
+
+      private Guid GetUserIdFromToken()
+    {
+        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (userIdStr == null )
+        throw new UnauthorizedAccessException("No UserId");
+        
+        return Guid.Parse(userIdStr) ;
     }
 }
