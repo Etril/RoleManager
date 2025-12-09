@@ -4,7 +4,7 @@ using Backend.Domain.ValueObjects;
 
 namespace Backend.Application.Commands;
 
-public class DeleteOrderCommandHandler
+public class DeleteOrderCommandHandler : IDeleteOrderCommandHandler
 {
     private readonly IUserRepository _userRepository;
 

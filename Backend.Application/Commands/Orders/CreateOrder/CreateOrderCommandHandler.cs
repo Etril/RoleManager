@@ -4,7 +4,7 @@ using Backend.Domain.ValueObjects;
 
 namespace Backend.Application.Commands;
 
-public class CreateOrderCommandHandler
+public class CreateOrderCommandHandler : ICreateOrderCommandHandler
 {
     private readonly IUserRepository _userRepository;
 

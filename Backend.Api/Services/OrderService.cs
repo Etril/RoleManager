@@ -6,13 +6,13 @@ namespace Backend.Api.Services.Order;
 public class OrderService : IOrderService
 {
 
-    private readonly CreateOrderCommandHandler _createOrderHandler;
+    private readonly ICreateOrderCommandHandler _createOrderHandler;
 
-    private readonly EditOrderCommandHandler _editOrderHandler;
+    private readonly IEditOrderCommandHandler _editOrderHandler;
 
-    private readonly DeleteOrderCommandHandler _deleteOrderHandler;
+    private readonly IDeleteOrderCommandHandler _deleteOrderHandler;
 
-    public OrderService (CreateOrderCommandHandler createOrderHandler, EditOrderCommandHandler editOrderHandler, DeleteOrderCommandHandler deleteOrderHandler)
+    public OrderService (ICreateOrderCommandHandler createOrderHandler, IEditOrderCommandHandler editOrderHandler, IDeleteOrderCommandHandler deleteOrderHandler)
     {
         _createOrderHandler = createOrderHandler;
 

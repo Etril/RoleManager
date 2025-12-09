@@ -4,7 +4,7 @@ using Backend.Domain.ValueObjects;
 
 namespace Backend.Application.Commands; 
 
-public class EditOrderCommandHandler
+public class EditOrderCommandHandler : IEditOrderCommandHandler
 {
     private readonly IUserRepository _userRepository;
 
