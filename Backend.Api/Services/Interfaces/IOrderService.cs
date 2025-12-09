@@ -4,9 +4,9 @@ namespace Backend.Api.Services.Interfaces;
 
 public interface IOrderService
 {
-    Task<OrderResponseDto> CreateOrderAsync (CreateOrderDto dto, Guid userId);
+    Task<CreateOrderResponse> CreateOrderAsync (CreateOrderDto dto, Guid userId, Guid targetUserId);
 
-    Task<OrderResponseDto> EditOrderAsync (EditOrderDto dto, Guid orderId, Guid userId);
+    Task<EditOrderResponse> EditOrderAsync (EditOrderDto dto, Guid orderId, Guid userId);
 
-    Task<OrderResponseDto> DeleteOrderAsync (Guid orderId, Guid userId );
+    Task<DeleteOrderResponse> DeleteOrderAsync (Guid orderId, Guid userId );
 }

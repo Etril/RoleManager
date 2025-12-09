@@ -16,11 +16,11 @@ public class OrderController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost]
-    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto dto)
+    [HttpPost("{targetUserId}")]
+    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto dto, Guid targetUserId)
     {
         var userId = GetUserIdFromToken();
-        var result = await _orderService.CreateOrderAsync(dto, userId);
+        var result = await _orderService.CreateOrderAsync(dto, userId, targetUserId);
         return Ok(result);
     }
 
