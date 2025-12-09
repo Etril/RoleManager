@@ -96,4 +96,94 @@ public class OrderServiceTests
     
     }
 
+    [Fact]
+
+    public async Task EditOrderService_ReturnsEditOrderResponse_WhenValid()
+    {
+        //Arrange
+        var fakeUser= new User(new UserName("test"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
+        var fakeUserId= fakeUser.Id;
+
+        var fakeTargetUser= new User(new UserName("test"), PasswordHash.FromHash("hashed"), RoleRights.CreateAdmin());
+        var fakeTargetUserId= fakeTargetUser.Id;
+
+
+        var fakeOrderId= Guid.NewGuid();
+
+        var fakeRequestDto = new EditOrderDto
+        {
+            Id = fakeOrderId,
+            Name = "Test",
+            Date= DateTime.UtcNow,
+            Price= 100
+        };
+
+        var fakeResponse= new EditOrderResponse(fakeOrderId, fakeRequestDto.Name!, fakeRequestDto.Price, fakeRequestDto.Date);
+
+
+        _userRepositoryMock
+        .Setup(repo => repo.GetByOrderIdAsync(fakeOrderId))
+        .ReturnsAsync(fakeTargetUser);
+
+        _userRepositoryMock
+        .Setup(repo => repo.GetByIdAsync(fakeUserId))
+        .ReturnsAsync(fakeUser);
+
+        _editOrderHandlerMock
+        .Setup(h => h.Handle(It.IsAny<EditOrderCommand>(), fakeUserId, fakeTargetUserId))
+        .ReturnsAsync(fakeResponse);
+
+
+        //Act
+        var result= await _orderService.EditOrderAsync(fakeRequestDto, fakeUserId, fakeTargetUserId);
+
+
+        //Assert
+        result.OrderId.Should().Be(fakeResponse.OrderId);
+        result.Name.Should().Be(fakeResponse.Name);
+        result.Price.Should().Be(fakeResponse.Price);
+        result.Date.Should().Be(fakeResponse.Date);
+    
+    }
+
+    [Fact]
+
+    public async Task DeleteOrderService_ReturnsEditOrderResponse_WhenValid()
+    {
+        //Arrange
+        var fakeUser= new User(new UserName("test"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
+        var fakeUserId= fakeUser.Id;
+
+        var fakeTargetUser= new User(new UserName("test"), PasswordHash.FromHash("hashed"), RoleRights.CreateAdmin());
+        var fakeTargetUserId= fakeTargetUser.Id;
+
+
+        var fakeOrderId= Guid.NewGuid();
+
+        var fakeResponse= new DeleteOrderResponse("Order deleted", true);
+
+
+        _userRepositoryMock
+        .Setup(repo => repo.GetByOrderIdAsync(fakeOrderId))
+        .ReturnsAsync(fakeTargetUser);
+
+        _userRepositoryMock
+        .Setup(repo => repo.GetByIdAsync(fakeUserId))
+        .ReturnsAsync(fakeUser);
+
+        _deleteOrderHandlerMock
+        .Setup(h => h.Handle(It.IsAny<DeleteOrderCommand>(), fakeUserId))
+        .ReturnsAsync(fakeResponse);
+
+
+        //Act
+        var result= await _orderService.DeleteOrderAsync(fakeOrderId, fakeUserId);
+
+
+        //Assert
+        result.Message.Should().Be("Order deleted");
+        result.Success.Should().BeTrue();
+    
+    }
+
 }
