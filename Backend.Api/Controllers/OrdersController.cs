@@ -37,7 +37,7 @@ public class OrderController : ControllerBase
     [Authorize]
     [HttpDelete("{id}")]
 
-    public async Task<IActionResult> DeleteOrderAsync (Guid id)
+    public async Task<IActionResult> DeleteOrder (Guid id)
     {
         var userId = GetUserIdFromToken();
         var result = await _orderService.DeleteOrderAsync(id, userId);

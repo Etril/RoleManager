@@ -96,6 +96,36 @@ public class OrderServiceTests
     
     }
 
+     [Fact]
+
+    public async Task CreateOrderService_Throws_WhenNameIsNull()
+    {
+        //Arrange
+        var fakeUser= new User(new UserName("test"), PasswordHash.FromHash("hashed"), RoleRights.CreateBaseUser());
+        var fakeUserId= fakeUser.Id;
+
+        var fakeTargetUser= new User(new UserName("test"), PasswordHash.FromHash("hashed"), RoleRights.CreateAdmin());
+        var fakeTargetUserId= fakeTargetUser.Id;
+
+        var fakeRequestDto = new CreateOrderDto
+        {
+            Name = null,
+            Date= DateTime.UtcNow,
+            Price= 100
+        };
+
+
+        //Act
+        Func<Task> act= async() => await _orderService.CreateOrderAsync(fakeRequestDto, fakeUserId, fakeTargetUserId);
+
+        //Assert
+        await act.Should().ThrowAsync<Exception>()
+        .WithMessage("Name cannot be empty");
+
+
+
+    }
+
     [Fact]
 
     public async Task EditOrderService_ReturnsEditOrderResponse_WhenValid()
