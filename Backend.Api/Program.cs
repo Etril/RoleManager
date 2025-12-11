@@ -2,6 +2,7 @@ using Backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Backend.Application.Repositories;
 using Backend.Infrastructure.Persistence.Repositories;
+using Backend.Api.Middlewares;
 using Backend.Api.Extensions;
 
 
@@ -29,6 +30,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
