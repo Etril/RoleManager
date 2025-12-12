@@ -1,5 +1,6 @@
 using Backend.Api.Services.Auth;
 using Backend.Api.Services.Interfaces;
+using Backend.Api.Services.Order;
 using Backend.Application.Repositories;
 using Backend.Infrastructure.Persistence.Repositories;
 
@@ -12,5 +13,7 @@ public static class ServiceExtensions
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IAuthService, AuthService>();
+
+        services.AddScoped<IOrderService, OrderService>();
     }
 }

@@ -22,7 +22,7 @@ public static class SwaggerExtensions
             options.AddSecurityDefinition(schemeId, new OpenApiSecurityScheme
             {
                 Type= SecuritySchemeType.Http,
-                Scheme= "Bearer",
+                Scheme= "bearer",
                 BearerFormat="JWT",
                 Description = "JWT Auth header with Bearer scheme"
                 
@@ -32,7 +32,7 @@ public static class SwaggerExtensions
 {
     var requirement = new OpenApiSecurityRequirement
       {
-        [new OpenApiSecuritySchemeReference("bearer", document)] = new List<string>()
+        [new OpenApiSecuritySchemeReference("Bearer", document)] = new List<string>()
         
         };
     

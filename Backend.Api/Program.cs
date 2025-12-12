@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationServices();
 builder.Services.AddJwtAuth(builder.Configuration);
+builder.Services.AddApplicationHandlers();
 
 builder.Services.AddControllers();
 
@@ -28,6 +29,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 var app = builder.Build();
+
+
 
 
 if (app.Environment.IsDevelopment())
@@ -45,5 +48,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+await app.Services.SeedAsync();
 
 app.Run();
