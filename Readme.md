@@ -5,26 +5,57 @@ des permissions d'accès et d'edition différentes. Une pipeline CI, incluant de
 
 ** Diagramme Architecture ** 
 
-flowchart LR
-    API[API Layer<br/>ASP.NET Core]
-    APP[Application Layer<br/>CQRS / Use Cases]
-    DOMAIN[Domain Layer<br/>Entities & Value Objects]
-    INFRA[Infrastructure Layer<br/>EF Core / Persistence]
+Backend.Api
+├── Controllers
+├── DTOs
+│   ├── AuthDTOs
+│   └── OrdersDTOs
+├── Extensions
+├── Middlewares
+├── Services
+│   └── Interfaces
+├── Properties
 
-    API --> APP
-    APP --> DOMAIN
-    INFRA --> APP
-    INFRA --> DOMAIN
+Backend.Application
+├── Commands
+│   └── Orders
+│       ├── CreateOrder
+│       ├── EditOrder
+│       ├── DeleteOrder
+│       └── Interfaces
+├── Queries
+│   └── Order
+├── Repositories
 
-    classDef api fill:#e3f2fd,stroke:#1e88e5
-    classDef app fill:#e8f5e9,stroke:#43a047
-    classDef domain fill:#fffde7,stroke:#f9a825
-    classDef infra fill:#fce4ec,stroke:#c2185b
+Backend.Domain
+├── Entities
+├── ValueObjects
+├── Roles
+├── Services
+└── Exceptions
 
-    class API api
-    class APP app
-    class DOMAIN domain
-    class INFRA infra
+Backend.Infrastructure
+├── Persistence
+│   └── Repositories
+└── Migrations
+
+Backend.Tests
+├── Api.Tests
+│   ├── Auth.Tests
+│   └── Order.Tests
+├── Application.Tests
+│   ├── Command.Tests
+│   │   ├── Orders.Tests
+│   │   └── User.Tests
+│   └── Integration
+├── Domain.Tests
+│   ├── OrderTests
+│   ├── RolesTests
+│   └── UserTests
+└── Infrastructure.Tests
+    ├── Common
+    └── RepositoriesTests
+
 
 ** Points clés **: 
 -Gestion des utilisateurs: Des Users avec différents roles et permissions (Base, Manager, Admin).
