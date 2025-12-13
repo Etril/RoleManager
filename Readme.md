@@ -3,6 +3,29 @@
 Ce projet a pour objectif de créer un backend en C# avec le framework ASP.NET Core, pour gérer plusieurs users (admin, manager et user) avec 
 des permissions d'accès et d'edition différentes. Une pipeline CI, incluant des tests unitaires et d'intégration automatiques à chaque push, est mise en place via GitHub Actions. 
 
+** Diagramme Architecture ** 
+
+flowchart LR
+    API[API Layer<br/>ASP.NET Core]
+    APP[Application Layer<br/>CQRS / Use Cases]
+    DOMAIN[Domain Layer<br/>Entities & Value Objects]
+    INFRA[Infrastructure Layer<br/>EF Core / Persistence]
+
+    API --> APP
+    APP --> DOMAIN
+    INFRA --> APP
+    INFRA --> DOMAIN
+
+    classDef api fill:#e3f2fd,stroke:#1e88e5
+    classDef app fill:#e8f5e9,stroke:#43a047
+    classDef domain fill:#fffde7,stroke:#f9a825
+    classDef infra fill:#fce4ec,stroke:#c2185b
+
+    class API api
+    class APP app
+    class DOMAIN domain
+    class INFRA infra
+
 ** Points clés **: 
 -Gestion des utilisateurs: Des Users avec différents roles et permissions (Base, Manager, Admin).
 -Gestion des commandes: Chaque User a une liste de commandes associées qui peuvent être ajoutées, éditées ou supprimées. 
@@ -14,7 +37,7 @@ des permissions d'accès et d'edition différentes. Une pipeline CI, incluant de
 
 ** Prérequis **: 
 -.NET 10 SDK
--SQlite 
+-SQlite
 -Postman pour tester en dehors du Swagger. 
 
 Une fois le projet clone, restoré (pour les packages) et build, il est prêt à être testé. 
@@ -48,6 +71,13 @@ Un test d'intégration vérifie le fonctionnement de la chaine handler + reposit
 
 Les tests d'intégration et unitaires se lancent automatiquement à chaque push. 
 En l'absence de déploiement / production, pas de pipeline CD associée. 
+
+** Choix de SQLite ** 
+
+Le focus du projet était sur la modélisation du User, avec des tables claires et prédéfinies (Nom, MDP, Role), lui même contenant des Orders nestées avec encore une fois des données claire et prédéfinies. 
+Le layer Infrastructure permettrait de remplaçer SQLite par une autre DB lors d'un passage en production. 
+
+
 
 
 
