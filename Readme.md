@@ -4,12 +4,19 @@ Ce projet a pour objectif de créer un backend en C# avec le framework ASP.NET C
 des permissions d'accès et d'edition différentes. Une pipeline CI, incluant des tests unitaires et d'intégration automatiques à chaque push, est mise en place via GitHub Actions. 
 
 ** Points clés **: 
+
 -Gestion des utilisateurs: Des Users avec différents roles et permissions (Base, Manager, Admin).
+
 -Gestion des commandes: Chaque User a une liste de commandes associées qui peuvent être ajoutées, éditées ou supprimées. 
+
 -Authentification JWT, les endpoints protégés sont sécurisés et les informations sur l'user extraites du token. 
+
 -Structure "Clean Architecture", avec une division en Domain, Application, Infrastructure et API pour diviser les préocupations et amincir chaque unité de code. 
+
 -Mise en place en YAML d'une pipeline CI, avec des tests unitaires et d'intégration automatiques. Utilisation de XUnit, Moq, FluentAssertions et TestExplorer pour les tests eux-même. Coverlet pour le coverage. 
+
 -Mise en place d'un Swagger pour la lisibilité de l'API, avec JWT fonctionel dans l'UI. 
+
 -Seeding de la base de donnée SQLite en mode "dev" pour pouvoir tester à chaque run. 
 
 ** Prérequis **: 
