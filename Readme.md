@@ -20,9 +20,14 @@ des permissions d'accès et d'edition différentes. Une pipeline CI, incluant de
 -Seeding de la base de donnée SQLite en mode "dev" pour pouvoir tester à chaque run. 
 
 ** Prérequis **: 
+
+
 -.NET 10 SDK
+
 -SQlite
+
 -Postman pour tester en dehors du Swagger. 
+
 
 Une fois le projet clone, restoré (pour les packages) et build, il est prêt à être testé. 
 
